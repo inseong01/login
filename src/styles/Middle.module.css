@@ -1,0 +1,11 @@
+/* middle */
+.middle {
+  width: 100%;
+
+  gap: 14px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  cursor: default;
+}
