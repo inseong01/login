@@ -1,11 +1,20 @@
 24.10.30.
-  로그인 UI 디자인
-  로그인/아웃/가입/탈퇴 설계
-  개발 문서 작성
-  git Repository 연결
+  - 로그인 UI 디자인
+  - 로그인/아웃/가입/탈퇴 설계
+  - 개발 문서 작성
+  - git Repository 연결
 
 24.10.31.
-  UI 구현: 로그인, 회원가입
-  입력, 입력 오류 구현
+  - UI 구현: 로그인, 회원가입
+  - 입력, 입력 오류 구현
 
+24.11.1.
+  - Error, npm unable to resolve dependency tree
+    -> npm install --verbose, 에러 확인 가능
+      : upstream dependency 원인
+    -> "npm i [모듈]", --force or --legacy-peer-deps 추가
+      : incorrect (and potentially broken) dependency 포함 선언 의미
+  - 유닛 테스트코드 작성
+  - 회원가입 오류 조건 추가
+  
 <-- form 전송 -->

@@ -26,7 +26,14 @@ export default function getErrorMessage(e, state, err, setError) {
   }
   // 에러 조건
   const isSpace = /[\s]/g.test(e.target.value);
-  const isTypeWrong = /[ㄱ-ㅎ|ㅏ-ㅣ|가-핳]/g.test(e.target.value);
+  const isTypeWrong =
+    e.target.name !== 'name'
+      ? /[ㄱ-ㅎ|ㅏ-ㅣ|가-핳]/g.test(e.target.value)
+      : false;
+  const isNameWrong =
+    e.target.name === 'name'
+      ? /[ㄱ-ㅎ|ㅏ-ㅣ]/g.test(e.target.value)
+      : false
   const isMinLength =
     state.type === 'login'
       ? e.target.value.length < minLength &&
@@ -37,6 +44,7 @@ export default function getErrorMessage(e, state, err, setError) {
   let msg = '';
   if (isTypeWrong) msg = '영문, 숫자, 특수문자로 입력해주세요.';
   else if (isSpace) msg = '공백은 없어야 합니다.';
+  else if (isNameWrong) msg = `자음 또는 모음으로 설정할 수 없습니다.`;
   else if (isMinLength) msg = `${minLength}글자 이상이어야 합니다.`;
   else if (isMaxLength) msg = `${maxLength}글자 이하이어야 합니다.`;
   // 에러 할당
@@ -49,7 +57,7 @@ export default function getErrorMessage(e, state, err, setError) {
           msg: {
             ...prev.msg,
             id: msg,
-            current: msg ? msg : err.msg.pwd ? err.msg.pwd : '',
+            current: msg ? msg : err.msg.password ? err.msg.password : '',
           },
         };
       });
@@ -59,8 +67,8 @@ export default function getErrorMessage(e, state, err, setError) {
       setError((prev) => {
         return {
           ...prev,
-          pwd: isTypeWrong || isMinLength || isSpace || isMaxLength,
-          msg: { ...prev.msg, pwd: msg, current: msg ? msg : err.msg.id ? err.msg.id : '' },
+          password: isTypeWrong || isMinLength || isSpace || isMaxLength,
+          msg: { ...prev.msg, password: msg, current: msg ? msg : err.msg.id ? err.msg.id : '' },
         };
       });
       return;
@@ -69,7 +77,7 @@ export default function getErrorMessage(e, state, err, setError) {
       setError((prev) => {
         return {
           ...prev,
-          name: isTypeWrong || isMinLength || isSpace || isMaxLength,
+          name: isNameWrong || isMinLength || isSpace || isMaxLength,
           msg: { ...prev.msg, name: msg, current: '' },
         };
       });

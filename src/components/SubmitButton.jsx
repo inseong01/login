@@ -2,10 +2,10 @@
 
 import styles from '@/styles/SubmitButton.module.css';
 import { LoginContext } from '@/app/LoginContextProvider';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 function SubmitButton() {
-  const { state, dispatch } = useContext(LoginContext);
+  const { dispatch } = useContext(LoginContext);
 
   return (
     <input

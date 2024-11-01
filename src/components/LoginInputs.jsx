@@ -8,9 +8,9 @@ import getErrorMessage from '@/function/getErrorMessage';
 let obj = {};
 const initError = {
   id: false,
-  pwd: false,
+  password: false,
   name: false,
-  msg: { id: '', pwd: '', name: '', current: '' },
+  msg: { id: '', password: '', name: '', current: '' },
 };
 
 function LoginInputs() {
@@ -40,7 +40,7 @@ function LoginInputs() {
       return (
         <>
           <div className={`${styles[state.type]} ${styles.inputBox}`}>
-            {(err.id || err.pwd) && <div className={styles.error}>{err.msg.current}</div>}
+            {(err.id || err.password) && <div className={styles.error}>{err.msg.current}</div>}
             <input
               required
               type="text"
@@ -55,7 +55,7 @@ function LoginInputs() {
               required
               type="password"
               name="password"
-              className={`${styles.input} ${err.pwd ? styles.wrong : ''}`}
+              className={`${styles.input} ${err.password ? styles.wrong : ''}`}
               placeholder={`Password를 입력하세요`}
               onChange={getTypingValue}
             />
@@ -100,13 +100,13 @@ function LoginInputs() {
           </div>
           <div className={`${styles[state.type]} ${styles.inputBox}`}>
             <div className={styles.category}>비밀번호</div>
-            {err.pwd && <div className={styles.error}>{err.msg.pwd}</div>}
+            {err.password && <div className={styles.error}>{err.msg.password}</div>}
             <input
               required
               minLength={8}
               type="password"
               name="password"
-              className={`${styles.input} ${err.pwd ? styles.wrong : ''}`}
+              className={`${styles.input} ${err.password ? styles.wrong : ''}`}
               placeholder={`Password를 입력하세요`}
               onChange={getTypingValue}
             />

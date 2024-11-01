@@ -1,0 +1,5 @@
+jest.mock.calls
+	함수 거치면서 변경된 인자 모음 가지고 있음
+
+jest.mock.calls[0][0]((prev) => console.log(prev))
+	가지고 있는 0번째 인자 모음 보여줌
