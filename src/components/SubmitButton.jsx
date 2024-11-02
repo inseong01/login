@@ -12,8 +12,7 @@ function SubmitButton() {
       type="submit"
       className={`${styles.btn}`}
       value={'SUBMIT'}
-      onSubmit={(e) => {
-        e.preventDefault();
+      onClick={() => {
         dispatch({ type: 'CLICK_SUBMIT' });
       }}
     />
