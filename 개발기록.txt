@@ -17,7 +17,7 @@
   - 유닛 테스트코드 작성
   - 회원가입 오류 조건 추가
   
-<-- form 전송 -->
+24.11.2.
   - Error, Nextjs, 커스텀 서버는 vercel 배포 안됨
     -> 최적화를 위해 Nextjs 자체 서버 사용, 커스텀 서버는 최적화 사용할 수 없음 
   - Error, action 외 데이터 fetch 전송 후 request.body 빈 값일 경우
@@ -28,3 +28,20 @@
     -> import dotenv from "dotenv"; dotenv.config(); 설정
   - 서버 구축 중
     form 데이터 값 받음, redis 설정 중
+    https://redis.io/docs/latest/develop/connect/clients/nodejs/#connect
+
+24.11.3.
+  - Redis, 연결
+    : id: sessionID 형식으로 서버 메모리 저장, 클라이언트는 두 개의 값을 쿠키로 보관
+    클라이언트 고유 식별, 관리 효율 장점 
+    APIs Link: https://redis.io/docs/latest/commands/?group=generic
+  - Firebase, 연결
+    : users/${userInfo} 형식으로 유저 데이터 보관 
+  - 로그인/로그아웃
+    - 쿠키 활용
+      : 서버에서 쿠키를 전달, "httpOnly: true" document.cookie 접근 불가, 서버의 req, res로 클라이언트 쿠키 접근 가능, 쿠키 유효시간 중요
+      인증 성공여부 반환 text 간단 설정, 200으로 처리
+    - 로그인
+      : 서버, ID, PWD 에러 처리, 성공 쿠키 반환
+
+<-- 로그아웃 구현, 에러 처리 -->

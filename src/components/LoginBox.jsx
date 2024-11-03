@@ -21,18 +21,31 @@ function LoginBox() {
             data[value[0]] = value[1];
           }
           console.log(data);
-          const response = await fetch('/login', {
+          fetch('/login', {
             method: 'post',
+            credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
-          });
-          const result = await response.json();
-          console.log(result);
-          if (result.isCorrect) {
-            console.log('Pass');
-          } else {
-            console.log('Nope');
-          }
+          })
+            .then((response) => {
+              console.log(response);
+              if (response.ok && response.status === 200) return response.text();
+            })
+            .then((result) => {
+              // 성공 'OK', 실패 'FAILD'
+              switch (result) {
+                case 'OK': {
+                  // 이동
+                  console.log('성공', result);
+                  break;
+                }
+                default: {
+                  // 로그인 화면 에러 표시
+                  console.log('실패', result);
+                }
+              }
+            })
+            .catch((err) => console.error('Fetch Error,', err));
         }}
       >
         <Top />
