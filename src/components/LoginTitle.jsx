@@ -1,12 +1,11 @@
 'use client';
 
-import { LoginContext } from '@/app/LoginContextProvider';
-import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 
 function LoginTitle() {
-  const { state } = useContext(LoginContext);
+  const formState = useSelector((state) => state.formState);
 
-  switch (state.type) {
+  switch (formState.type) {
     case 'login': {
       return <span>Login Your Account</span>;
     }

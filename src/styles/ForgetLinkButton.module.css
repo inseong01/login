@@ -1,0 +1,13 @@
+.forgetLink {
+  display: inline-block;
+  font-size: 11px;
+  text-align: right;
+  transform-origin: bottom;
+  zoom: 0.9;
+
+  position: absolute;
+  bottom: 0;
+  right: 0;
+
+  cursor: pointer;
+}

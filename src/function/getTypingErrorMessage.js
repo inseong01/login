@@ -1,6 +1,4 @@
-export default function getErrorMessage(e, state, err, setError) {
-  // 첫 로그인 검사 방지
-  if (state.type === 'login' && state.isFirstLogin) return;
+export default function getTypingErrorMessage(e, state, err, setError) {
   // 최소 길이 할당
   let minLength = 0;
   let maxLength = 0;
@@ -35,11 +33,15 @@ export default function getErrorMessage(e, state, err, setError) {
       ? /[ㄱ-ㅎ|ㅏ-ㅣ]/g.test(e.target.value)
       : false
   const isMinLength =
-    state.type === 'login'
-      ? e.target.value.length < minLength &&
-      e.target.value.length >= 1
-      : e.target.value.length < minLength;
-  const isMaxLength = e.target.value.length > maxLength
+    state.type === 'signUp'
+      ? e.target.value.length < minLength
+      // : e.target.value.length < minLength &&
+      // e.target.value.length >= 1
+      : false
+  const isMaxLength =
+    state.type === 'signUp'
+      ? e.target.value.length > maxLength
+      : false;
   // 에러 메시지
   let msg = '';
   if (isTypeWrong) msg = '영문, 숫자, 특수문자로 입력해주세요.';

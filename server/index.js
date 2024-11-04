@@ -78,9 +78,9 @@ app.post('/login', async (req, res) => {
     })
 
   // 로그인 실패 결과 전달
-  if (error.server) return res.send('FAILD, server error');
-  if (error.result) return res.send('FAILD, id error');
-  if (userInfo.password !== password) return res.send('FAILD, password error');
+  if (error.server) return res.send('SERVER ERROR');
+  if (error.result) return res.send('ID ERROR');
+  if (userInfo.password !== password) return res.send('PASSWORD ERROR');
 
   // 세션ID 발급  
   const sessionID = uuidv4();

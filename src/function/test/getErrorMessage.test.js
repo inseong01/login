@@ -1,4 +1,4 @@
-import getErrorMessage from "../getErrorMessage";
+import getErrorMessage from "../getTypingErrorMessage";
 
 const err = {
   id: false,
