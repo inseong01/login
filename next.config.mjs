@@ -10,8 +10,18 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/login',
+        source: '/api/login',
         destination: 'http://localhost:3003/login',
+        permanent: true,
+      },
+      {
+        source: '/api/checkID',
+        destination: 'http://localhost:3003/checkID',
+        permanent: true,
+      },
+      {
+        source: '/api/signUp',
+        destination: 'http://localhost:3003/signUp',
         permanent: true,
       },
     ]

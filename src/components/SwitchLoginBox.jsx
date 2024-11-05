@@ -2,6 +2,8 @@
 
 import { resetLoginError } from '@/lib/features/errorState/loginSlice';
 import { resetSignUpError } from '@/lib/features/errorState/signUpSlice';
+import { resetIdCheckState } from '@/lib/features/submitState/idCheckSlice';
+import { resetSubmitState } from '@/lib/features/submitState/submitSlice';
 import { switchForm } from '@/lib/features/switchState/formSlice';
 import styles from '@/styles/SwitchLoginBox.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,8 +32,9 @@ function SwitchLoginBox() {
           className={styles.switchBox}
           onClick={() => {
             dispatch(switchForm({ type: 'login' }));
-            console.log();
             dispatch(resetSignUpError());
+            dispatch(resetIdCheckState());
+            dispatch(resetSubmitState());
           }}
         >
           Login your account

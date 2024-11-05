@@ -32,15 +32,17 @@ const loginSlice = createSlice({
       // 에러 할당
       switch (name) {
         case 'id': {
+          // db 메시지 여부로 ID 변경 시 PWD 에러 초기화
           const isDBPasswordMsg = state.msg.password === '비밀번호가 일치하지 않습니다.';
           return {
             ...state,
             id: isTypeWrong || isSpace,
-            isError: isTypeWrong || isSpace || state.password,
+            password: state.password && !isDBPasswordMsg,
+            isError: isTypeWrong || isSpace || state.password && !isDBPasswordMsg,
             msg: {
               ...state.msg,
               id: msg,
-              current: msg ? msg : state.msg.password ? state.msg.password : ''
+              current: msg ? msg : state.msg.password && !isDBPasswordMsg ? state.msg.password : ''
             }
           }
         }

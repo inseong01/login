@@ -6,10 +6,23 @@ import Middle from './Middle';
 import Top from './Top';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSumbitLoginError } from '@/lib/features/errorState/loginSlice';
+import { getSumbitSignUpError } from '@/lib/features/errorState/signUpSlice';
+import { asyncSubmitFetch, changeSubmitState } from '@/lib/features/submitState/submitSlice';
+import { useEffect } from 'react';
 
 function LoginBox() {
   const formState = useSelector((state) => state.formState);
+  const submitState = useSelector((state) => state.submitState);
   const dispatch = useDispatch();
+
+  useEffect(
+    function updateSubmitState() {
+      if (!submitState.isSubmit) return;
+      // console.log(submitState);
+    },
+    [submitState]
+  );
+
   return (
     <form
       id="loginForm"
@@ -22,31 +35,21 @@ function LoginBox() {
         for (let value of form) {
           data[value[0]] = value[1];
         }
-        console.log(data);
-
+        // async dispatch, Promise 반환
+        const fetchResult = await dispatch(asyncSubmitFetch({ type: formState.type, data }));
+        const { result } = fetchResult.payload;
         switch (formState.type) {
           case 'login': {
-            fetch('/login', {
-              method: 'post',
-              credentials: 'include',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(data),
-            })
-              .then((response) => {
-                console.log(response);
-                if (response.ok && response.status === 200) return response.text();
-              })
-              .then((result) => {
-                // 로그인 에러 처리
-                dispatch(getSumbitLoginError({ result }));
-              })
-              .catch((err) => {
-                // 패치 오류 처리
-                dispatch(getSumbitLoginError({ result: 'SERVER ERROR' }));
-                console.error('Fetch Error,', err);
-              });
+            // 에러 처리
+            dispatch(getSumbitLoginError({ result }));
+            // 화면 이동, 상태 초기화(연속 클릭 방지)
+            return;
           }
           case 'signUp': {
+            // 에러 처리
+            dispatch(getSumbitSignUpError({ result }));
+            // 화면 이동, 상태 초기화(연속 클릭 방지)
+            return;
           }
         }
       }}

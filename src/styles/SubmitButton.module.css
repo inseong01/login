@@ -15,15 +15,11 @@
 }
 
 /* 상태 변화 */
-.btn.process {
+.btn.PROCESS {
   color: white;
   background-color: #acacac;
 }
-.btn.fail {
-  color: white;
-  background-color: #acacac;
-}
-.btn.success {
+.btn.SUCCESS {
   color: white;
   background-color: #24b600;
 }

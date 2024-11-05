@@ -1,14 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   id: false,
   password: false,
   name: false,
   isError: false,
+  isCheckedID: false,
   msg: {
     id: '',
     password: '',
     name: '',
+    current: ''
   }
 }
 
@@ -100,28 +102,93 @@ const signUpSlice = createSlice({
         }
       }
     },
+    isCheckID: (state, action) => {
+      const isPassed = action.payload.result === 'OK' ? true : false;
+      if (isPassed) {
+        return {
+          ...state,
+          id: false,
+          isError: state.password || state.name,
+          isCheckedID: true,
+          msg: {
+            ...state.msg,
+            id: '사용 가능한 아이디입니다.'
+          }
+        }
+      }
+      return {
+        ...state,
+        id: true,
+        isError: true,
+        isCheckedID: true, // id 중복 -> 제출 불가 -> id 수정 -> 검사(통과) -> id 중복 -> 제출 가능
+        msg: {
+          ...state.msg,
+          id: '중복된 아이디입니다.'
+        }
+      }
+    },
     getSubmitSignUpEmptyError: (state, action) => {
-      const { id, password, name, msg } = state;
+      const { id, password, name, isCheckedID, msg } = state;
       const isIdEmpty = !action.payload.id;
       const isPasswordEmpty = !action.payload.password;
       const isNameEmpty = !action.payload.name;
-      const isErrorBefore = state.id || state.password || state.name;
 
+      const idError = id || isIdEmpty || !isCheckedID; // id만 isCheckedID 오류 발생
+      const passwordError = password || isPasswordEmpty;
+      const nameError = name || isNameEmpty;
+      const isErrorBefore = id || password || name;
+      const isError = isIdEmpty || isPasswordEmpty || isNameEmpty || isErrorBefore || !isCheckedID;
+      console.log()
       // 이전 에러 동기화
       return {
-        id: id || isIdEmpty,
-        password: password || isPasswordEmpty,
-        name: name || isNameEmpty,
-        isError: isIdEmpty || isPasswordEmpty || isNameEmpty || isErrorBefore,
+        id: idError,
+        password: passwordError,
+        name: nameError,
+        isError,
         msg: {
-          id: msg.id ? msg.id : isIdEmpty ? '아이디를 입력하세요' : '',
-          password: msg.password ? msg.password : isPasswordEmpty ? '비밀번호를 입력하세요' : '',
-          name: msg.name ? msg.name : isNameEmpty ? '이름을 입력하세요' : '',
+          id: msg.id
+            ? msg.id : isIdEmpty
+              ? '아이디를 입력하세요' : !isCheckedID
+                ? '아이디 중복을 확인해주세요' : '',
+          password: msg.password
+            ? msg.password : isPasswordEmpty
+              ? '비밀번호를 입력하세요' : '',
+          name: msg.name
+            ? msg.name : isNameEmpty
+              ? '이름을 입력하세요' : '',
+        }
+      }
+    },
+    getSumbitSignUpError: (state, action) => {
+      const result = action.payload.result;
+      switch (result) {
+        case 'OK': {
+          return state;
+        }
+        case 'SERVER ERROR': {
+          return {
+            ...state,
+            isError: true,
+            msg: {
+              ...state.msg,
+              current: '서버에 문제가 생겼습니다.',
+            },
+          }
+        }
+        default: {
+          return {
+            ...state,
+            isError: true,
+            msg: {
+              ...state.msg,
+              current: '뭔가 잘못 됐습니다.'
+            }
+          }
         }
       }
     }
   },
 })
 
-export const { resetSignUpError, getTypingSignUpError, getSubmitSignUpEmptyError } = signUpSlice.actions;
+export const { resetSignUpError, getTypingSignUpError, isCheckID, getSubmitSignUpEmptyError, getSumbitSignUpError } = signUpSlice.actions;
 export default signUpSlice.reducer;
