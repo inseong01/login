@@ -9,10 +9,9 @@ const initialState = {
 export const asyncDuplicatedIdFetch = createAsyncThunk(
   'signUp/asyncDuplicatedIdFetch',
   async ({ id }) => {
-    console.log(id)
     try {
       const response = await fetch('api/checkID', {
-        method: 'post',
+        method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ signUp: { id } }),
@@ -49,16 +48,27 @@ const idCheckSlice = createSlice({
       // 모든 오류 서버에서 fulfilled 처리
       console.log(action.payload)
       const result = action.payload.result
-      const submitStatus = result ? 'SUCCESS' : 'FAIL'
-      return {
-        ...state,
-        submitStatus: submitStatus,
-        fetchResult: result,
+      switch (result) {
+        case 'SERVER ERROR': {
+          return {
+            isSubmit: false,
+            submitStatus: 'FAIL',
+            fetchResult: result,
+          }
+        }
+        default: {
+          const submitStatus = result === 'OK' ? 'SUCCESS' : 'FAIL'
+          return {
+            ...state,
+            submitStatus: submitStatus,
+            fetchResult: result,
+          }
+        }
       }
     })
     builder.addCase(asyncDuplicatedIdFetch.rejected, (state, action) => {
       return {
-        ...state,
+        isSubmit: false,
         submitStatus: 'FAIL',
         fetchResult: false,
       }

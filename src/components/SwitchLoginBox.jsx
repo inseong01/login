@@ -10,33 +10,35 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function SwitchLoginBox() {
   const formState = useSelector((state) => state.formState);
+  const submitState = useSelector((state) => state.submitState);
   const dispatch = useDispatch();
+
+  function onClickloginSwitch() {
+    if (submitState.submitStatus === 'PROCESS') return;
+    dispatch(switchForm({ type: 'signUp' }));
+    dispatch(resetLoginError());
+    dispatch(resetSubmitState());
+  }
+
+  function onClickSignUpSwitch() {
+    if (submitState.submitStatus === 'PROCESS') return;
+    dispatch(switchForm({ type: 'login' }));
+    dispatch(resetSignUpError());
+    dispatch(resetIdCheckState());
+    dispatch(resetSubmitState());
+  }
 
   switch (formState.type) {
     case 'login': {
       return (
-        <div
-          className={styles.switchBox}
-          onClick={() => {
-            dispatch(switchForm({ type: 'signUp' }));
-            dispatch(resetLoginError());
-          }}
-        >
+        <div className={styles.switchBox} onClick={onClickloginSwitch}>
           Create new account
         </div>
       );
     }
     case 'signUp': {
       return (
-        <div
-          className={styles.switchBox}
-          onClick={() => {
-            dispatch(switchForm({ type: 'login' }));
-            dispatch(resetSignUpError());
-            dispatch(resetIdCheckState());
-            dispatch(resetSubmitState());
-          }}
-        >
+        <div className={styles.switchBox} onClick={onClickSignUpSwitch}>
           Login your account
         </div>
       );

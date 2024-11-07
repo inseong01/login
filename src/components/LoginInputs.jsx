@@ -21,7 +21,6 @@ function LoginInputs() {
 
   // 입력 함수
   function getTypingValue(e) {
-    console.log(signUpErrorState);
     // 폼 구분
     if (formState.type === 'login') {
       dispatch(getTypingLoginError({ value: e.target.value, name: e.target.name }));
@@ -32,7 +31,6 @@ function LoginInputs() {
       dispatch(getTypingSignUpError({ value: e.target.value, name: e.target.name }));
     }
   }
-  console.log('idCheckState', idCheckState.isSubmit);
 
   // ID 중복 검사
   async function onClickCheckDuplicatedID() {

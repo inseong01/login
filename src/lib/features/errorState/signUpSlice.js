@@ -78,6 +78,7 @@ const signUpSlice = createSlice({
             ...state,
             id: isTypeWrong || isSpace || isMinLength,
             isError: isError || state.password || state.name,
+            isCheckedID: false,
             msg: {
               ...state.msg,
               id: msg,
@@ -103,27 +104,43 @@ const signUpSlice = createSlice({
       }
     },
     isCheckID: (state, action) => {
-      const isPassed = action.payload.result === 'OK' ? true : false;
-      if (isPassed) {
-        return {
-          ...state,
-          id: false,
-          isError: state.password || state.name,
-          isCheckedID: true,
-          msg: {
-            ...state.msg,
-            id: '사용 가능한 아이디입니다.'
+      const result = action.payload.result;
+      switch (result) {
+        case 'OK': {
+          return {
+            ...state,
+            id: false,
+            isError: state.password || state.name,
+            isCheckedID: true,
+            msg: {
+              ...state.msg,
+              id: '사용 가능한 아이디입니다.'
+            }
           }
         }
-      }
-      return {
-        ...state,
-        id: true,
-        isError: true,
-        isCheckedID: true, // id 중복 -> 제출 불가 -> id 수정 -> 검사(통과) -> id 중복 -> 제출 가능
-        msg: {
-          ...state.msg,
-          id: '중복된 아이디입니다.'
+        case 'SERVER ERROR': {
+          return {
+            ...state,
+            id: true,
+            isError: true,
+            isCheckedID: false,
+            msg: {
+              ...state.msg,
+              id: '서버 오류'
+            }
+          }
+        }
+        default: {
+          return {
+            ...state,
+            id: true,
+            isError: true,
+            isCheckedID: true,
+            msg: {
+              ...state.msg,
+              id: '중복된 아이디입니다.'
+            }
+          }
         }
       }
     },
@@ -138,9 +155,10 @@ const signUpSlice = createSlice({
       const nameError = name || isNameEmpty;
       const isErrorBefore = id || password || name;
       const isError = isIdEmpty || isPasswordEmpty || isNameEmpty || isErrorBefore || !isCheckedID;
-      console.log()
+
       // 이전 에러 동기화
       return {
+        ...state,
         id: idError,
         password: passwordError,
         name: nameError,

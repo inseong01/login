@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { createClient } from "redis";
 import cookieParser from 'cookie-parser';
 import { initializeApp } from "firebase/app";
-import { child, get, getDatabase, onValue, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, remove, set } from "firebase/database";
 dotenv.config();
 
 const redisInit = {
@@ -44,8 +44,8 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get('/', async (req, res) => {
@@ -86,15 +86,16 @@ app.post('/login', async (req, res) => {
   await client.set(id, sessionID);
   // 로그인 성공 결과 전달('OK' 반환)
   res.cookie('login',
-    { 'id': id, 'sessionID': sessionID },
-    { httpOnly: true, secure: true, path: '/', maxAge: 30000 }
+    JSON.stringify({ 'id': id, 'sessionID': sessionID, 'name': userInfo.name }),
+    { httpOnly: true, secure: true, path: '/', maxAge: 300000 } // 100ms = 1s
   ).sendStatus(200);
 })
 
 // 로그아웃
 app.post('/logout', async (req, res) => {
   // 정보 받음
-  const { id } = req.cookies?.login;
+  const loginCookie = JSON.parse(req.cookies?.login);
+  const id = loginCookie.id
   // 로그아웃 실패 결과 전달
   if (!id) res.send('FAIL');
   // 세션ID 삭제
@@ -148,14 +149,61 @@ app.post('/checkID', async (req, res) => {
   res.send(isOk)
 })
 
-// Redis 데이터베이스 확인
+// 회원탈퇴
+app.post('/delete/account', async (req, res) => {
+  try {
+    // 쿠키 가져오기
+    const loginCookie = JSON.parse(req.cookies.login);
+    const loginID = loginCookie.id
+    // Redis 삭제
+    await client.del(loginID);
+    // Redis 확인
+    const isDeletedOnRedis = await client.get(loginID);
+    if (isDeletedOnRedis) throw new Error(`${isDeletedOnRedis} is not deleted on Redis`);
+    // DB 삭제
+    await remove(ref(db, `users/${loginID}`));
+    // DB 확인
+    await get(child(ref(db), `users/${loginID}`))
+      .then((snapshot) => {
+        if (snapshot.val()) throw new Error(`${loginID} is not deleted on Firebase`);
+      });
+    // 정상 응답
+    res.clearCookie().send('OK');
+  } catch (err) {
+    // 실패 응답, 서버 오류
+    console.error('Delete account server error : ', err);
+    res.send('SERVER ERROR')
+  }
+})
+
+// Redis DB 목록 확인
 app.get('/redis', async (req, res) => {
-  const data = {};
-  const key = await client.keys('*');
-  for (let i = 0; i < key.length; i++) {
-    data[key[i]] = await client.get(key[i]);
+  const redisKey = await client.keys('*');
+  const data = redisKey.length ? {} : { '0': 'empty' };
+  for (let i = 0; i < redisKey.length; i++) {
+    data[redisKey[i]] = await client.get(redisKey[i]);
   }
   res.json(data);
+})
+
+// Redis 세션ID 검증
+app.post('/redis/exist', async (req, res) => {
+  try {
+    const loginCookie = req.cookies?.login ? JSON.parse(req.cookies.login) : null;;
+    const userID = loginCookie ? loginCookie.id : null;
+    const sessionID = loginCookie ? loginCookie.sessionID : null;
+    // 세션ID 없는 상태로 접근하면 홈으로 이동 
+    if (!userID || !sessionID) return res.send('ERROR');
+    // Redis, 세션ID 검증
+    const redisSessionID = await client.get(userID);
+    const isValidSessionID = sessionID === redisSessionID;
+    // 응답 전달
+    if (isValidSessionID) return res.send('OK');
+    return res.send('ERROR');
+  } catch (err) {
+    console.error('Redis exist server error', err);
+    return res.send('ERROR')
+  }
 })
 
 

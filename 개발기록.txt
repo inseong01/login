@@ -34,7 +34,7 @@
   - Redis, 연결
     : id: sessionID 형식으로 서버 메모리 저장, 클라이언트는 두 개의 값을 쿠키로 보관
     클라이언트 고유 식별, 관리 효율 장점 
-    APIs Link: https://redis.io/docs/latest/commands/?group=generic
+    Redis APIs Link: https://redis.io/docs/latest/commands/?group=generic
   - Firebase, 연결
     : users/${userInfo} 형식으로 유저 데이터 보관 
   - 로그인/로그아웃
@@ -76,4 +76,20 @@
       5. 회원가입, 제출 이후 제출 클릭, 항목 수정 불가
       6. 로그인, 제출 이후 항목 수정 다시 제출 클릭 가능
 
-<-- 제출 예외사항 추가, id 중복 검사 후 중복 id로 수정 시 제출됨  -->
+24.11.7.
+  - 제출 예외사항 추가
+      1. id 중복 검사 후 id 수정 시 id 중복 재검사 적용
+  - 로그인 이후 유저 페이지로 이동
+  - 미들웨어 설정
+    : 비정상 접근 제한, 보유한 쿠키 세션ID 검증
+  - Error, 서버 컴포넌트에서 fetch 사용 시 쿠키 전달 오류
+    -> [Object: null prototype] {}, fetch header 쿠키 직접 설정하여 전달,
+    브라우저와 분리된 환경으로 서버에서 실행되는 fetch는 브라우저 쿠키를 포함할 수 없음 
+  - Form 전환 버튼 제한 유형
+      1. 제출되고 있을 동안 연속 클릭 금지
+      2. 클릭 후 버튼 상태 초기화
+  - 로그인 이동, 회원가입, 보완
+  - 로그아웃, 회원탈퇴 버튼 기능 구현
+    : Redis, Firebase 연동, 스타일링 제외
+
+<-- 애니메이션 적용  -->

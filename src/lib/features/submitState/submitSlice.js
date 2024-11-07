@@ -51,7 +51,7 @@ const submitSlice = createSlice({
       const status = action.payload.result === 'OK' ? 'SUCCESS' : 'FAIL';
       return {
         ...state,
-        // isSubmit: true,
+        isSubmit: true,
         submitStatus: status,
         fetchResult: action.payload.result
       }
@@ -59,7 +59,7 @@ const submitSlice = createSlice({
     builder.addCase(asyncSubmitFetch.rejected, (state, action) => {
       return {
         ...state,
-        // isSubmit: true,
+        isSubmit: true,
         submitStatus: 'FAILD',
         fetchResult: action.payload.result
       }
