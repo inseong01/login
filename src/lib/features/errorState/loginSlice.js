@@ -42,6 +42,7 @@ const loginSlice = createSlice({
             msg: {
               ...state.msg,
               id: msg,
+              password: state.msg.password && !isDBPasswordMsg ? state.msg.password : '',
               current: msg ? msg : state.msg.password && !isDBPasswordMsg ? state.msg.password : ''
             }
           }
@@ -67,11 +68,11 @@ const loginSlice = createSlice({
       let errorMsg = '';
 
       if (isIdEmpty && isPasswordEmpty) {
-        errorMsg = '아이디와 비밀번호를 입력해주세요'
+        errorMsg = '아이디와 비밀번호를 입력해주세요.'
       } else if (isIdEmpty) {
-        errorMsg = '아이디를 입력해주세요'
+        errorMsg = '아이디를 입력해주세요.'
       } else if (isPasswordEmpty) {
-        errorMsg = '비밀번호를 입력해주세요'
+        errorMsg = '비밀번호를 입력해주세요.'
       }
 
       // 형식이 있을 때(공백 삽입 O)

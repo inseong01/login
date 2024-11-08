@@ -50,7 +50,6 @@ const submitSlice = createSlice({
       // 모든 오류 서버에서 fulfilled 처리
       const status = action.payload.result === 'OK' ? 'SUCCESS' : 'FAIL';
       return {
-        ...state,
         isSubmit: true,
         submitStatus: status,
         fetchResult: action.payload.result
@@ -58,9 +57,8 @@ const submitSlice = createSlice({
     })
     builder.addCase(asyncSubmitFetch.rejected, (state, action) => {
       return {
-        ...state,
         isSubmit: true,
-        submitStatus: 'FAILD',
+        submitStatus: 'FAIL',
         fetchResult: action.payload.result
       }
     })

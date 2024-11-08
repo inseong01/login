@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isSubmit: false,
   submitStatus: '',
-  fetchResult: false,
+  fetchResult: '',
 }
 
 export const asyncDuplicatedIdFetch = createAsyncThunk(
@@ -46,7 +46,6 @@ const idCheckSlice = createSlice({
     })
     builder.addCase(asyncDuplicatedIdFetch.fulfilled, (state, action) => {
       // 모든 오류 서버에서 fulfilled 처리
-      console.log(action.payload)
       const result = action.payload.result
       switch (result) {
         case 'SERVER ERROR': {
@@ -70,7 +69,7 @@ const idCheckSlice = createSlice({
       return {
         isSubmit: false,
         submitStatus: 'FAIL',
-        fetchResult: false,
+        fetchResult: 'REJECTED',
       }
     })
   }

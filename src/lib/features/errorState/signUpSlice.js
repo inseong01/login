@@ -164,6 +164,7 @@ const signUpSlice = createSlice({
         name: nameError,
         isError,
         msg: {
+          ...state.msg,
           id: msg.id
             ? msg.id : isIdEmpty
               ? '아이디를 입력하세요' : !isCheckedID
@@ -181,12 +182,16 @@ const signUpSlice = createSlice({
       const result = action.payload.result;
       switch (result) {
         case 'OK': {
-          return state;
+          return {
+            ...state,
+            isCheckedID: true,
+          };
         }
         case 'SERVER ERROR': {
           return {
             ...state,
             isError: true,
+            isCheckedID: true,
             msg: {
               ...state.msg,
               current: '서버에 문제가 생겼습니다.',
@@ -197,6 +202,7 @@ const signUpSlice = createSlice({
           return {
             ...state,
             isError: true,
+            isCheckedID: true,
             msg: {
               ...state.msg,
               current: '뭔가 잘못 됐습니다.'

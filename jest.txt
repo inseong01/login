@@ -3,3 +3,20 @@ jest.mock.calls
 
 jest.mock.calls[0][0]((prev) => console.log(prev))
 	가지고 있는 0번째 인자 모음 보여줌
+
+screen.debug()
+	render() 된 DOM 구조 확인 가능
+
+Redux test
+	1. *Slice.js 파일은 함수의 name으로 불러올 수 있다.
+	2. name으로 가져온 함수는 리듀서로 2개의 인자를 받는다.
+		(state, actionFn(action)) -> (undefined, '') = initialState 반환
+		-> undefined으로 설정해야 action을 전달할 수 있다.
+	3. ExtraReducers 테스트 방법
+		본 리듀서에 initialState, action 인자 부여, 
+			-> action: { type: 리듀서.fulfilled.type }으로 할당, 
+			action: { type: ..., payload: {...}  } 직접 payload 할당  
+	4. dispatch 사용방법
+		<Provider store={store}>, store.dispatch()로 실행가능
+			-> await act(() => store.dispatch(...)) 감싸줘야 값 갱신됨 
+			-> store 변수: dispatch, getState... 다른 기능 또한 사용 가능
