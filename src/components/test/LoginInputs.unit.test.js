@@ -1,26 +1,28 @@
 import '@testing-library/jest-dom'
-import { act, render, screen } from '@testing-library/react'
+import { act, cleanup, render, screen } from '@testing-library/react'
 import LoginInputs from '../LoginInputs'
 import { Provider } from 'react-redux'
 import { makeStore } from '@/lib/makeStore'
 import { switchForm } from '@/lib/features/switchState/formSlice'
 import userEvent from '@testing-library/user-event'
 import { getSubmitLoginEmptyError, getSumbitLoginError } from '@/lib/features/errorState/loginSlice'
-import { getSubmitSignUpEmptyError, getSumbitSignUpError, isCheckID } from '@/lib/features/errorState/signUpSlice'
+import { getSubmitSignUpEmptyError, getSumbitSignUpError, isCheckID, resetSignUpError } from '@/lib/features/errorState/signUpSlice'
 
 jest.mock('../ForgetLinkButton', () => () => <span>Forget Password</span>)
 
 describe('LoginInputs Component test : ', () => {
   const store = makeStore();
-  beforeEach(() => {
+  beforeEach(async () => {
     render(
       <Provider store={store}>
         <LoginInputs />
       </Provider>
     )
+    await act(() => store.dispatch(resetSignUpError()));
   })
   afterEach(() => {
     jest.clearAllMocks();
+    cleanup();
   })
 
   describe('Form type - login', () => {

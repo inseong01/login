@@ -7,6 +7,22 @@ jest.mock.calls[0][0]((prev) => console.log(prev))
 screen.debug()
 	render() 된 DOM 구조 확인 가능
 
+window.fetch 목킹
+	jest.fn().mockImplementation(() => Promise.resolve({
+		...
+		json: () => ...,
+		text: () => ...,
+	}))
+	동일, jest.fn().mockResolvedValue({
+					...
+					json: () => ...,
+					text: () => ...,
+				})
+
+setTimeout 있을 때, jest 시간 초과
+	await waitFor(() => (), { timeout: 1000 }) 활용,
+	옵션: timeout 기본 1000
+
 Redux test
 	1. *Slice.js 파일은 함수의 name으로 불러올 수 있다.
 	2. name으로 가져온 함수는 리듀서로 2개의 인자를 받는다.
@@ -20,3 +36,9 @@ Redux test
 		<Provider store={store}>, store.dispatch()로 실행가능
 			-> await act(() => store.dispatch(...)) 감싸줘야 값 갱신됨 
 			-> store 변수: dispatch, getState... 다른 기능 또한 사용 가능
+	5. state, dispatch 추적하기
+		'redux-mock-store' 패키지 활용, 
+		const mockStore = configureMockStore(); 선언,
+		let store = mockStore({ 각 state 할당 }) 선언,
+				store.dispatch = jest.fn() 선언 
+		-> toHaveBeenCalledWith()로 특정 Action 추적 가능

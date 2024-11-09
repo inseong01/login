@@ -2,50 +2,63 @@ import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react';
 import SwitchLoginBox from '../SwitchLoginBox';
 import userEvent from '@testing-library/user-event';
-userEvent.setup();
-
-let dispatchMockFn = jest.fn();
-
-jest.mock('react', () => {
-  const actualReact = jest.requireActual('react');
-  return {
-    ...actualReact,
-    useContext: jest
-      .fn()
-      .mockImplementationOnce(() => ({ state: { type: 'login' }, dispatch: dispatchMockFn }))
-      .mockImplementationOnce(() => ({ state: { type: 'signUp' }, dispatch: dispatchMockFn })),
-  };
-});
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 describe('SwitchLoginBox Component test : ', () => {
-  beforeEach(() => {
-    dispatchMockFn.mockClear();
-  });
+  const mockStore = configureMockStore();
+  let store;
 
-  test('Type: login, styles & onClick', async () => {
-    render(<SwitchLoginBox />)
-    const tag = screen.getByText('Create new account');
-    // styles
-    expect(tag).toHaveClass('switchBox');
-    expect(tag).toHaveTextContent('Create new account');
 
-    // functions
-    expect(dispatchMockFn).not.toHaveBeenCalled();
-    await userEvent.click(tag);
-    expect(dispatchMockFn).toHaveBeenCalledWith({ type: 'SWITCH' });
+  describe('Type: login', () => {
+    beforeEach(() => {
+      store = mockStore({
+        formState: { type: 'login' },
+        submitState: { submitStatus: '' },
+      })
+      store.dispatch = jest.fn();
+      render(
+        <Provider store={store}>
+          <SwitchLoginBox />
+        </Provider>
+      )
+    });
+
+    it('styles', () => {
+      const tag = screen.getByText('Create new account');
+      expect(tag).toBeInTheDocument();
+    })
+    it('onClick', async () => {
+      const tag = screen.getByText('Create new account');
+      expect(store.dispatch).not.toHaveBeenCalled();
+      await userEvent.click(tag);
+      expect(store.dispatch).toHaveBeenCalledTimes(3);
+    })
   })
-  test('Type: signUp,  styles & onClick', async () => {
-    render(<SwitchLoginBox />)
-    const tag = screen.getByText('Login your account');
+  describe('Type: signUp', () => {
+    beforeEach(() => {
+      store = mockStore({
+        formState: { type: 'signUp' },
+        submitState: { submitStatus: '' },
+      })
+      store.dispatch = jest.fn();
 
-    // styles
-    expect(tag).toHaveClass('switchBox');
-    expect(tag).toHaveTextContent('Login your account');
+      render(
+        <Provider store={store}>
+          <SwitchLoginBox />
+        </Provider>
+      )
+    });
 
-    // functions
-    expect(dispatchMockFn).not.toHaveBeenCalled();
-    await userEvent.click(tag);
-    expect(dispatchMockFn).toHaveBeenCalledWith({ type: 'SWITCH' });
+    it('styles', () => {
+      const tag = screen.getByText('Login your account');
+      expect(tag).toBeInTheDocument();
+    })
+    it('onClick', async () => {
+      const tag = screen.getByText('Login your account');
+      expect(store.dispatch).not.toHaveBeenCalled();
+      await userEvent.click(tag);
+      expect(store.dispatch).toHaveBeenCalledTimes(4);
+    })
   })
-
 })

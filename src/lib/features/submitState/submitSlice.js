@@ -16,11 +16,11 @@ export const asyncSubmitFetch = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      await new Promise((res) => setTimeout(() => res(), 1000))
+      await new Promise((res) => setTimeout(() => res(), 300))
 
       if (response.ok && response.status === 200) {
         const result = await response.text();
-        await new Promise((res) => setTimeout(() => res(), 1000))
+        await new Promise((res) => setTimeout(() => res(), 300))
         return { result }; // 'OK' 또는 에러 메시지 반환
       };
     } catch (err) {
