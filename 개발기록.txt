@@ -100,7 +100,7 @@
   - 테스트 코드
   : 전 컴포넌트 수정 및 추가 작성
 
-<-- 애니메이션 적용 -->
+24.11.10.
   Error, ReferenceError: Request is not defined
     testEnvironment: 'jsdom'에서 테스트 어려움, 브라우저 환경
     testEnvironment: 'node'에서 가능
@@ -108,5 +108,8 @@
   because the character at index 81 has a value of 44288 which is greater than 255.
     81번째에서 unicode 255 초과, 영어 외 언어 문자는 Fetch 전달할 때 오류 발생 
     -> 쿠키 부여 encodeURIComponent, 쿠기 값 사용 decodeURIComponent 적용으로 해결
-  개선점
-  : 쿠키 만료 되었을 때, redis에서 세션 아이디 삭제
+  - 개선 할 점
+    : 쿠키 만료 되었을 때, redis에서 세션 아이디 삭제
+  - 개발 문서 작성, 문서 작성 브런치 생성
+
+<-- 애니메이션 적용 -->
