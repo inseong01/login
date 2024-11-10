@@ -7,11 +7,12 @@ async function Page() {
   const cookieStore = await cookies();
   const loginCookie = cookieStore.get('login');
   const loginCookieValue = loginCookie && (await JSON.parse(loginCookie.value));
+  const name = decodeURIComponent(loginCookieValue.name);
 
   return (
     <>
       <div>
-        <h1>{`Welcome '${loginCookieValue.name}'`}</h1>
+        <h1>{`Welcome '${name}'`}</h1>
       </div>
       <div>
         <LogoutButton />

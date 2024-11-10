@@ -86,7 +86,7 @@ app.post('/login', async (req, res) => {
   await client.set(id, sessionID);
   // 로그인 성공 결과 전달('OK' 반환)
   res.cookie('login',
-    JSON.stringify({ 'id': id, 'sessionID': sessionID, 'name': userInfo.name }),
+    JSON.stringify({ 'id': id, 'sessionID': sessionID, 'name': encodeURIComponent(userInfo.name) }),
     { httpOnly: true, secure: true, path: '/', maxAge: 300000 } // 100ms = 1s
   ).sendStatus(200);
 })
@@ -189,7 +189,7 @@ app.get('/redis', async (req, res) => {
 // Redis 세션ID 검증
 app.post('/redis/exist', async (req, res) => {
   try {
-    const loginCookie = req.cookies?.login ? JSON.parse(req.cookies.login) : null;;
+    const loginCookie = req.cookies?.login ? JSON.parse(req.cookies.login) : null;
     const userID = loginCookie ? loginCookie.id : null;
     const sessionID = loginCookie ? loginCookie.sessionID : null;
     // 세션ID 없는 상태로 접근하면 홈으로 이동 
@@ -202,7 +202,7 @@ app.post('/redis/exist', async (req, res) => {
     return res.send('ERROR');
   } catch (err) {
     console.error('Redis exist server error', err);
-    return res.send('ERROR')
+    return res.send('ERROR');
   }
 })
 

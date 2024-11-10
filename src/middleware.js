@@ -7,13 +7,12 @@ export async function middleware(req, res) {
     // 로그인 쿠키 불러오기
     const cookieStore = await cookies();
     const loginCookie = cookieStore.get('login');
-    const loginCookieValue = loginCookie && (await JSON.parse(loginCookie.value));
     // 로그인 쿠키 전달하기
     const response = await fetch('http://localhost:3000/api/redis/exist', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
-        , 'Cookie': `login=${JSON.stringify(loginCookieValue)}`
+        'Content-Type': 'application/json',
+        'Cookie': `login=${loginCookie.value}`
       },
     });
     // 로그인 쿠키 검증
