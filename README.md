@@ -136,20 +136,20 @@
   <b>정상동작</b>
 </p>
 
-![](.gif)
+![](./gif/login_0_1.gif)
 
 <p>
   <b>입력 오류 처리</b>
 </p>
 
-![](.gif)
+![](./gif/login_1_1.gif)
 
 <h3>로그아웃</h3>
 <p>
-  <b>정상동작, 세션아이디/쿠키 비워짐, 브라우저 이동</b>
+  <b>정상동작</b>
 </p>
 
-![](.gif)
+![](./gif/logout_0_1.gif)
 
 
 <h3>회원가입</h3>
@@ -157,26 +157,20 @@
   <b>정상동작</b>
 </p>
 
-![](.gif)
+![](./gif/signUp_0_1.gif)
 
 <p>
   <b>아이디 중복 검사</b>
 </p>
 
-![](.gif)
-
-<p>
-  <b>입력 오류 처리</b>
-</p>
-
-![](.gif)
+![](./gif/idCheck_0.gif)
 
 <h3>회원탈퇴</h3>
 <p>
-  <b>정상동작, DB/세션아이디/쿠키 비워짐, 브라우저 이동</b>
+  <b>정상동작</b>
 </p>
 
-![](.gif)
+![](./gif/deleteAccount_1.gif)
 
 ### 2.3. JavaScript 활용 예시
 ---
@@ -193,7 +187,7 @@
 
 ## 3. 활용하기  
 이 섹션은 JavaScript를 사용한 로그인 프로젝트 기능 구현 방법을 안내합니다.   
-### 3.1. Firebase Database 구조
+## 3.1. Firebase Database 구조
 ```
 {
   users: {
@@ -210,7 +204,7 @@
 
 사용자 정보가 추가되면 `users/[id]` 구조로 등록됩니다.
 
-### 3.2. Redis Database 구조    
+## 3.2. Redis Database 구조    
 ```
 {
   [id]: [sessionID],
@@ -219,7 +213,7 @@
 ```
 `Redis Database`의 세션 아이디 관리 구조입니다. 사용자 접근권한 상태를 개별로 관리하기 위해 사용자의 아이디를 `key`로 사용합니다. 세션 아이디는 `value`로 관리합니다.
 
-### 3.3. Redux 상태관리 구조
+## 3.3. Redux 상태관리 구조
 ```
 store: {
   reducer: {
@@ -240,8 +234,7 @@ store: {
 - **submitState**: 폼 제출 상태 관리,
 - **idCheckState**: 아이디 중복 확인 상태 관리,
 
-### 3.4. 로그인
----
+## 3.4. 로그인
 **상태관리**    
 로그인 에러상태는 `loginSlice.js`에서 관리됩니다.     
 > lib/features/errorState/        
@@ -461,8 +454,7 @@ store: {
     **리덕스 비동기 액션**        
     `asyncSubmitFetch` 액션은 리덕스의 비동기 처리 액션입니다. 비동기는 **pending**, **fulfilled**, **rejected** 상태로 나뉩니다. 각 상태에 따라 `SubmitButton` 컴포넌트의 **value**가 변경되어 사용자에게 처리 상태를 알립니다.     
 
-### 3.5. 로그아웃
----
+## 3.5. 로그아웃
 이번 차례는 로그아웃을 안내합니다.    
 로그아웃 기능은 `Redis`, `Cookie` 순으로 동작합니다.    
 
@@ -511,8 +503,7 @@ store: {
     **서버 동작**   
     서버는 사용자의 쿠키에서 **id** 가져와 사용합니다. `Redis` 목록에서 해당 **id**의 세션 아이디를 삭제합니다. 서버는 사용자의 정보가 담긴 쿠키를 비우고 **'OK'** 응답을 클라이언트에게 전달합니다.
 
-### 3.6. 회원가입
----
+## 3.6. 회원가입
 **상태관리**    
 회원가입 에러상태는 `signUpSlice.js`에서 관리됩니다.     
 > lib/features/errorState/        
@@ -858,8 +849,7 @@ store: {
     
     `asyncSubmitFetch` 액션은 리덕스의 비동기 처리 액션입니다. 비동기는 **pending**, **fulfilled**, **rejected** 상태로 나뉩니다. 각 상태에 따라 `SubmitButton` 컴포넌트의 **value**가 변경되어 사용자에게 처리 상태를 알립니다.     
 
-### 3.7. 회원탈퇴
----
+## 3.7. 회원탈퇴
 이번 차례는 회원탈퇴를 안내합니다.    
 회원탈퇴 기능은 `Redis`, `Firebase`, `Cookie` 순으로 동작합니다.    
 
@@ -934,8 +924,7 @@ store: {
     **서버 동작**    
     서버는 사용자의 쿠키에서 **id** 가져와 사용합니다. `Redis` 목록에서 해당 **id**의 세션 아이디를 삭제합니다. 그리고 `Firebase`에서 해당 **id**의 사용자의 정보를 삭제하고 삭제 되었는지 확인합니다. **id**의 정보가 `null`인지 확인합니다. 서버는 사용자의 정보가 담긴 쿠키를 비우고 **'OK'** 응답을 클라이언트에게 전달합니다.  
 
-### 3.8. 쿠키 위조 검사
----
+## 3.8. 쿠키 위조 검사
 이번 차례는 쿠키 위조 검사 미들웨어를 안내합니다.    
 쿠키 위조 검사는 `Next` 미들웨어를 사용합니다.
 
@@ -985,25 +974,92 @@ store: {
 
 ## 4. 보완 사항 
 이 섹션은 로그인 프로젝트 보완 사항에 대해 설명합니다.   
-### 4.1. 에러 처리
----
+## 4.1. 에러 처리
 이번 차례는 에러 처리를 안내합니다.   
 
-### 00에러
----    
-- 설명
-- 원인
-- 결과
-- 해결방안
+### Nextjs 커스텀 서버 설정 시
+`vercel` 배포 할 수 없습니다. 또한 `Nextjs`의 자체 서버를 사용하지 않아 최적화를 진행 할 수 없습니다.
 
+### fetch 전송 후, 서버 `request.body` 빈 값일 경우
+전송한 데이터가 형식이 맞지 않을 때 발생합니다. 데이터를 `body`에 담아 전달할 때 `JSON.stringfy()`로 감싸야 합니다. 또한 `fetch` 헤더를 `{ 'content-type': 'application/json' }`으로 설정해야 합니다.
 
-### 4.2. 테스트 가이드
----
+서버는 데이터가 `json` 형식으로 오는 것으로 인식합니다.
+```js
+fetch('...', {
+  method: 'POST',
+  header: {
+    'content-type': 'application/json'
+  },
+  body: JSON.stringify(data);
+})
+```
+
+### Error, A non-serializable value was detected in an action, in the path
+비직렬화 오류입니다. 이벤트 객체 자체를 전달하지 않고 필요한 값만 추출해야 합니다.
+
+```js
+<div onClick={(event) => {
+  dispatch(sendTargetValue({ event: event })) // error
+}}>
+```
+```js
+<div onClick={(event) => {
+  dispatch(sendTargetValue({ target: event.target })) // error
+}}>
+```
+```js
+<div onClick={(event) => {
+  dispatch(sendTargetData({ value: event.target.value })) // correct
+}}>
+```
+
+### 서버 컴포넌트에서 쿠키 전달 오류
+서버 컴포넌트는 브라우저 환경에서 동작하지 않습니다. `fetch`는 브라우저 쿠키를 포함 할 수 있지만 서버 컴포넌트에서는 자동으로 포함되지 않습니다. 서버 컴포넌트는 `fetch` 헤더의 `Cookie`를 직접 할당해야 합니다. 
+
+`Nextjs`는 서버 컴포넌트에서 브라우저 쿠키를 접근할 수 있는 `API`를 제공합니다.    
+
+서버 컴포넌트에서 `fetch` 헤더에 `credentials='include'`를 설정하여 브라우저 쿠키를 포함할 수 없습니다. 
+
+```js
+// server component
+fetch('...', {
+  header: {
+    'Cookie': 'name=Anne' // name='Anne'
+  }
+})
+
+fetch('...', {
+  header: {
+    credentials='include' // null
+  }
+})
+```
+
+### Nextjs 미들웨어 테스트
+`ReferenceError: Request is not defined`, 미들웨어는 노드 환경에서 테스트 할 수 있습니다. 
+
+현재 설정된 환경은 `testEnvironment='jsdom'`입니다. `jsdom`은 브라우저 환경입니다. 미들웨어를 테스트 하려면 테스트 환경을 `testEnvironment='node'`로 설정해야 합니다.
+
+### 쿠키 전달 시 변환 오류
+`TypeError, Cannot convert argument to a ByteString...`, 유니코드 `255`를 초과하는 문자를 포함한 쿠키는 `fetch`로 전달 할 때 오류가 발생합니다. 쿠키는 영어 외 다른 문자를 포함할 수 없습니다.
+
+영어 외 다른 언어 문자를 인코드하여 쿠키로 전달할 수 있습니다.
+
+```js
+fetch('...', (
+  {
+    header: {
+      'Cookie': encodeURIComponent('name="홍길동"');
+    }
+  }
+))
+```
+
+## 4.2. 테스트 가이드
 이번 차례는 테스트 및 디버깅 가이드를 안내합니다.   
 테스트 도구로 `Jest`를 사용합니다.
 
 ### 테스트 파일 구조
----
 테스트 하고자 하는 파일이 존재하는 디렉터리에 `test` 디렉터리를 생성합니다.   
 `test` 디렉터리에서 테스트 파일을 생성합니다.   
 
@@ -1028,7 +1084,6 @@ store: {
   ```
 
 ### 테스트 파일 명명 규칙
----
 - **단위 테스트**: `*.unit.test.js`  
   개별 컴포넌트나 함수의 단일 기능을 테스트합니다.
 
@@ -1055,9 +1110,7 @@ store: {
   })
   ```
 
-
 ### 테스트 실행 방법
----
 - **테스트 실행**
 
   ```
@@ -1080,10 +1133,9 @@ store: {
   ```
 
 ### 테스트 유형
----
-### 단위 테스트 (unit)  
+#### 단위 테스트 (unit)  
 - 목적: 각 개별 모듈 또는 함수가 의도된 대로 동작하는지 확인      
 - 항목: 태그 존재, 클래스명 일치, 함수 동작 정상 여부   
-### 리덕스 테스트 (slice)  
+#### 리덕스 테스트 (slice)  
 - 목적: 다른 패키지와 분리 테스트 하여 개별 관리 용이       
 - 항목: 디스패치/액션 작동, 상태 처리/관리 확인    
