@@ -1,5 +1,6 @@
 'use client';
 
+import styles from '@/styles/user/Button.module.css';
 import { useRouter } from 'next/navigation';
 
 function LogoutButton() {
@@ -17,7 +18,7 @@ function LogoutButton() {
     if (result === 'OK') return router.push('/');
   }
 
-  return <input type="button" value={'logout'} onClick={onClickLogout} />;
+  return <input type="button" className={styles.input} value={'logout'} onClick={onClickLogout} />;
 }
 
 export default LogoutButton;

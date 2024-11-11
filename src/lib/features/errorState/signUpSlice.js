@@ -66,11 +66,11 @@ const signUpSlice = createSlice({
         : isSpace || isMinLength || isTypeWrong;
       // 에러 메시지
       let msg = '';
-      if (isTypeWrong) msg = '영문, 숫자, 특수문자로 입력해주세요.';
-      else if (isSpace) msg = '공백은 없어야 합니다.';
-      else if (isNameWrong) msg = `자음 또는 모음으로 설정할 수 없습니다.`;
-      else if (isMinLength) msg = `${minLength}글자 이상이어야 합니다.`;
-      else if (isMaxLength) msg = `최대 ${maxLength}글자 입니다.`;
+      if (isTypeWrong) msg = 'Please enter letters, numbers, and special characters.';
+      else if (isSpace) msg = 'Spaces are not allowed.';
+      else if (isNameWrong) msg = 'Cannot be set to a consonant or a vowel.';
+      else if (isMinLength) msg = `Must be at least ${minLength} characters.`;
+      else if (isMaxLength) msg = `Cannot exceed ${maxLength} characters.`;
       // 에러 할당
       switch (name) {
         case 'id': {
@@ -114,7 +114,7 @@ const signUpSlice = createSlice({
             isCheckedID: true,
             msg: {
               ...state.msg,
-              id: '사용 가능한 아이디입니다.'
+              id: 'The ID is available for use.'
             }
           }
         }
@@ -126,7 +126,7 @@ const signUpSlice = createSlice({
             isCheckedID: false,
             msg: {
               ...state.msg,
-              id: '서버 오류'
+              id: 'Server error'
             }
           }
         }
@@ -138,7 +138,7 @@ const signUpSlice = createSlice({
             isCheckedID: true,
             msg: {
               ...state.msg,
-              id: '중복된 아이디입니다.'
+              id: 'The ID is already in use.'
             }
           }
         }
@@ -167,14 +167,14 @@ const signUpSlice = createSlice({
           ...state.msg,
           id: msg.id
             ? msg.id : isIdEmpty
-              ? '아이디를 입력하세요' : !isCheckedID
-                ? '아이디 중복을 확인해주세요' : '',
+              ? 'Please enter your ID' : !isCheckedID
+                ? 'Please check if the ID is duplicated' : '',
           password: msg.password
             ? msg.password : isPasswordEmpty
-              ? '비밀번호를 입력하세요' : '',
+              ? 'Please enter your password' : '',
           name: msg.name
             ? msg.name : isNameEmpty
-              ? '이름을 입력하세요' : '',
+              ? 'Please enter your name' : '',
         }
       }
     },
@@ -194,7 +194,7 @@ const signUpSlice = createSlice({
             isCheckedID: true,
             msg: {
               ...state.msg,
-              current: '서버에 문제가 생겼습니다.',
+              current: 'Server error',
             },
           }
         }
@@ -205,7 +205,7 @@ const signUpSlice = createSlice({
             isCheckedID: true,
             msg: {
               ...state.msg,
-              current: '뭔가 잘못 됐습니다.'
+              current: 'Something is wrong'
             }
           }
         }

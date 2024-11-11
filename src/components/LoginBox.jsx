@@ -43,6 +43,11 @@ function LoginBox() {
         // 화면 이동, 상태 초기화(연속 클릭 방지)
         return;
       }
+      case 'forget': {
+        // 에러 처리
+        // 화면 이동, 상태 초기화(연속 클릭 방지)
+        return;
+      }
     }
   }
 

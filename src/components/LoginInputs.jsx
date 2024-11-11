@@ -65,7 +65,7 @@ function LoginInputs() {
               type="text"
               name="id"
               className={`${styles.input} ${id ? styles.wrong : ''}`}
-              placeholder={`아이디를 입력하세요`}
+              placeholder={`Enter your ID here`}
               onChange={getTypingValue}
             />
           </div>
@@ -77,11 +77,11 @@ function LoginInputs() {
               type="password"
               name="password"
               className={`${styles.input} ${password ? styles.wrong : ''}`}
-              placeholder={`비밀번호를 입력하세요`}
+              placeholder={`Enter your password here`}
               onChange={getTypingValue}
             />
           </div>
-          <ForgetLinkButton />
+          {/* <ForgetLinkButton /> */}
         </>
       );
     }
@@ -90,7 +90,7 @@ function LoginInputs() {
       return (
         <>
           <div className={`${styles[formState.type]} ${styles.inputBox}`}>
-            <div className={styles.category}>이름</div>
+            <div className={styles.category}>Name</div>
             {msg.name && <div className={`${styles.msgBox} ${name ? styles.error : ''}`}>{msg.name}</div>}
             <input
               required
@@ -100,7 +100,7 @@ function LoginInputs() {
               type="text"
               name="name"
               className={`${styles.input} ${name ? styles.wrong : ''}`}
-              placeholder={`이름을 입력하세요`}
+              placeholder={`Short name is recommended`}
               onChange={getTypingValue}
               disabled={submitState.isSubmit}
             />
@@ -117,7 +117,7 @@ function LoginInputs() {
                 type="text"
                 name="id"
                 className={`${styles.input} ${id ? styles.wrong : ''}`}
-                placeholder={`아이디를 입력하세요`}
+                placeholder={`Enter your ID here`}
                 onChange={getTypingValue}
                 disabled={submitState.isSubmit}
               />
@@ -130,7 +130,7 @@ function LoginInputs() {
             </div>
           </div>
           <div className={`${styles[formState.type]} ${styles.inputBox}`}>
-            <div className={styles.category}>비밀번호</div>
+            <div className={styles.category}>Password</div>
             {msg.password && (
               <div className={`${styles.msgBox} ${password ? styles.error : ''}`}>{msg.password}</div>
             )}
@@ -142,7 +142,7 @@ function LoginInputs() {
               type="password"
               name="password"
               className={`${styles.input} ${password ? styles.wrong : ''}`}
-              placeholder={`비밀번호를 입력하세요`}
+              placeholder={`Enter your password here`}
               onChange={getTypingValue}
               disabled={submitState.isSubmit}
             />
@@ -150,6 +150,40 @@ function LoginInputs() {
         </>
       );
     }
+    // case 'forget': {
+    //   const { isError, id, password, msg } = loginErrorState;
+    //   return (
+    //     <>
+    //       <div className={`${styles[formState.type]} ${styles.inputBox}`}>
+    //         {msg.current && (
+    //           <div className={`${styles.msgBox} ${isError ? styles.error : ''}`}>{msg.current}</div>
+    //         )}
+    //         <input
+    //           required
+    //           maxLength={12}
+    //           id="forgetID"
+    //           type="text"
+    //           name="id"
+    //           className={`${styles.input} ${id ? styles.wrong : ''}`}
+    //           placeholder={`아이디를 입력하세요`}
+    //           onChange={getTypingValue}
+    //         />
+    //       </div>
+    //       <div className={`${styles[formState.type]} ${styles.inputBox}`}>
+    //         <input
+    //           required
+    //           maxLength={8}
+    //           id="forgetName"
+    //           type="text"
+    //           name="name"
+    //           className={`${styles.input} ${password ? styles.wrong : ''}`}
+    //           placeholder={`이름을 입력하세요`}
+    //           onChange={getTypingValue}
+    //         />
+    //       </div>
+    //     </>
+    //   );
+    // }
   }
 }
 

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import LogoutButton from '../LogoutButton';
+import LogoutButton from '../user/LogoutButton';
 import userEvent from '@testing-library/user-event';
 
 // App router mock

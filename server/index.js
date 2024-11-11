@@ -168,7 +168,7 @@ app.post('/delete/account', async (req, res) => {
         if (snapshot.val()) throw new Error(`${loginID} is not deleted on Firebase`);
       });
     // 정상 응답
-    res.clearCookie().send('OK');
+    res.clearCookie('login').send('OK');
   } catch (err) {
     // 실패 응답, 서버 오류
     console.error('Delete account server error : ', err);
@@ -189,6 +189,7 @@ app.get('/redis', async (req, res) => {
 // Redis 세션ID 검증
 app.post('/redis/exist', async (req, res) => {
   try {
+    console.log(req.cookies)
     const loginCookie = req.cookies?.login ? JSON.parse(req.cookies.login) : null;
     const userID = loginCookie ? loginCookie.id : null;
     const sessionID = loginCookie ? loginCookie.sessionID : null;
@@ -205,7 +206,6 @@ app.post('/redis/exist', async (req, res) => {
     return res.send('ERROR');
   }
 })
-
 
 app.listen(port, () => {
   console.log(`Running on http://localhost:${port}`);

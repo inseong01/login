@@ -1,5 +1,6 @@
 'use client';
 
+import styles from '@/styles/user/Button.module.css';
 import { useRouter } from 'next/navigation';
 
 function DeleteAccountButton() {
@@ -18,7 +19,9 @@ function DeleteAccountButton() {
     const result = await response.text();
     if (result === 'OK') return router.push('/');
   }
-  return <input type="button" value={'delete account'} onClick={onClickDeleteAccount} />;
+  return (
+    <input type="button" className={styles.input} value={'delete account'} onClick={onClickDeleteAccount} />
+  );
 }
 
 export default DeleteAccountButton;

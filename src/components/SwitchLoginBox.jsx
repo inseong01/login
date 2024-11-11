@@ -13,33 +13,35 @@ function SwitchLoginBox() {
   const submitState = useSelector((state) => state.submitState);
   const dispatch = useDispatch();
 
-  function onClickloginSwitch() {
-    if (submitState.submitStatus === 'PROCESS') return;
-    dispatch(switchForm({ type: 'signUp' }));
-    dispatch(resetLoginError());
-    dispatch(resetSubmitState());
-  }
+  function onClickSwitch(type) {
+    return () => {
+      if (submitState.submitStatus === 'PROCESS') return;
+      if (submitState.submitStatus === 'SUCCESS' && type === 'signUp') return;
 
-  function onClickSignUpSwitch() {
-    if (submitState.submitStatus === 'PROCESS') return;
-    dispatch(switchForm({ type: 'login' }));
-    dispatch(resetSignUpError());
-    dispatch(resetIdCheckState());
-    dispatch(resetSubmitState());
+      dispatch(switchForm({ type }));
+      dispatch(resetLoginError());
+      dispatch(resetSignUpError());
+      dispatch(resetIdCheckState());
+      dispatch(resetSubmitState());
+    };
   }
 
   switch (formState.type) {
     case 'login': {
       return (
-        <div className={styles.switchBox} onClick={onClickloginSwitch}>
-          Create new account
+        <div className="box">
+          <div className={styles.switchBox} onClick={onClickSwitch('signUp')}>
+            Create new account
+          </div>
         </div>
       );
     }
     case 'signUp': {
       return (
-        <div className={styles.switchBox} onClick={onClickSignUpSwitch}>
-          Login your account
+        <div className="box">
+          <div className={styles.switchBox} onClick={onClickSwitch('login')}>
+            Login your account
+          </div>
         </div>
       );
     }

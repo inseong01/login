@@ -27,13 +27,13 @@ const loginSlice = createSlice({
       const isTypeWrong = /[ㄱ-ㅎ|ㅏ-ㅣ|가-핳]/g.test(value);
       // 에러 메시지
       let msg = '';
-      if (isTypeWrong) msg = '영문, 숫자, 특수문자로 입력해주세요.';
-      else if (isSpace) msg = '공백은 없어야 합니다.';
+      if (isTypeWrong) msg = 'Please enter letters, numbers, and special characters.';
+      else if (isSpace) msg = 'Spaces are not allowed.';
       // 에러 할당
       switch (name) {
         case 'id': {
           // db 메시지 여부로 ID 변경 시 PWD 에러 초기화
-          const isDBPasswordMsg = state.msg.password === '비밀번호가 일치하지 않습니다.';
+          const isDBPasswordMsg = state.msg.password === 'Passwords do not match.';
           return {
             ...state,
             id: isTypeWrong || isSpace,
@@ -68,11 +68,11 @@ const loginSlice = createSlice({
       let errorMsg = '';
 
       if (isIdEmpty && isPasswordEmpty) {
-        errorMsg = '아이디와 비밀번호를 입력해주세요.'
+        errorMsg = 'Please enter your ID and password.'
       } else if (isIdEmpty) {
-        errorMsg = '아이디를 입력해주세요.'
+        errorMsg = 'Please enter your ID.'
       } else if (isPasswordEmpty) {
-        errorMsg = '비밀번호를 입력해주세요.'
+        errorMsg = 'Please enter your password.'
       }
 
       // 형식이 있을 때(공백 삽입 O)
@@ -97,8 +97,8 @@ const loginSlice = createSlice({
         password: state.password || isPasswordEmpty,
         isError: isIdEmpty || isPasswordEmpty || isErrorBefore,
         msg: {
-          id: isIdEmpty ? '아이디를 입력해주세요.' : '',
-          password: isPasswordEmpty ? '비밀번호를 입력해주세요.' : '',
+          id: isIdEmpty ? 'Please enter your ID.' : '',
+          password: isPasswordEmpty ? 'Please enter your password.' : '',
           current: errorMsg
         }
       }
@@ -115,7 +115,7 @@ const loginSlice = createSlice({
             isError: true,
             msg: {
               ...state.msg,
-              current: '서버에 문제가 생겼습니다.',
+              current: 'The server has encountered a problem.',
             },
           }
         }
@@ -125,9 +125,9 @@ const loginSlice = createSlice({
             password: false,
             isError: true,
             msg: {
-              id: '아이디가 존재하지 않습니다.',
+              id: 'The ID does not exist.',
               password: '',
-              current: '아이디가 존재하지 않습니다.',
+              current: 'The ID does not exist.',
             },
           }
         }
@@ -138,8 +138,8 @@ const loginSlice = createSlice({
             isError: true,
             msg: {
               id: '',
-              password: '비밀번호가 일치하지 않습니다.',
-              current: '비밀번호가 일치하지 않습니다.',
+              password: 'Passwords do not match.',
+              current: 'Passwords do not match.',
             },
           }
         }

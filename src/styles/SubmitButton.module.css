@@ -5,13 +5,15 @@
   border-radius: 5px;
 
   letter-spacing: 3px;
-  background-color: #d9d9d9;
+  font-size: 1rem;
+  color: white;
+  background-color: #00acb5;
 
   cursor: pointer;
 }
 .btn:hover {
   color: white;
-  background-color: #acacac;
+  background-color: #00868d;
 }
 
 /* 상태 변화 */

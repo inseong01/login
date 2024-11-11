@@ -7,10 +7,10 @@ function LoginTitle() {
 
   switch (formState.type) {
     case 'login': {
-      return <span>Login Your Account</span>;
+      return <h1>Login Your Account</h1>;
     }
     case 'signUp': {
-      return <span>Create Your Account</span>;
+      return <h1>Create Your Account</h1>;
     }
   }
 }

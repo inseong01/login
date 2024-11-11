@@ -1,4 +1,9 @@
 .switchBox {
   font-size: 11px;
+  display: inline-block;
   cursor: pointer;
+}
+
+.switchBox:hover {
+  border-bottom: 1px solid #222;
 }

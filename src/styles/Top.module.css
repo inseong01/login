@@ -1,5 +1,11 @@
 /* top */
 .top {
-  font-size: 28px;
+  font-size: 1rem;
   cursor: default;
+
+  color: #00acb5;
+}
+
+.top h1 {
+  display: inline;
 }

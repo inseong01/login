@@ -9,7 +9,6 @@ describe('SwitchLoginBox Component test : ', () => {
   const mockStore = configureMockStore();
   let store;
 
-
   describe('Type: login', () => {
     beforeEach(() => {
       store = mockStore({
@@ -32,7 +31,7 @@ describe('SwitchLoginBox Component test : ', () => {
       const tag = screen.getByText('Create new account');
       expect(store.dispatch).not.toHaveBeenCalled();
       await userEvent.click(tag);
-      expect(store.dispatch).toHaveBeenCalledTimes(3);
+      expect(store.dispatch).toHaveBeenCalledTimes(5);
     })
   })
   describe('Type: signUp', () => {
@@ -58,7 +57,7 @@ describe('SwitchLoginBox Component test : ', () => {
       const tag = screen.getByText('Login your account');
       expect(store.dispatch).not.toHaveBeenCalled();
       await userEvent.click(tag);
-      expect(store.dispatch).toHaveBeenCalledTimes(4);
+      expect(store.dispatch).toHaveBeenCalledTimes(5);
     })
   })
 })
